@@ -8,8 +8,19 @@
 <h2>Support Ticket Dashboard</h2>
 
 <p>Welcome, {{ user.name }}!</p>
-
 <p>You are logged in as {{ user.email }}</p>
+
+<h3>Ticket Summary</h3>
+
+<p>Total Tickets: {{ tickets|length }}</p>
+
+<p>
+    <a href="{{ url_for('main.tickets') }}">View My Tickets</a>
+</p>
+
+<p>
+    <a href="{{ url_for('main.add_ticket') }}">Create New Ticket</a>
+</p>
 
 <a href="{{ url_for('auth.logout') }}">Logout</a>
 
