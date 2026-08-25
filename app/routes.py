@@ -10,16 +10,41 @@ main = Blueprint("main", __name__)
 @main.route("/")
 @login_required
 def home():
-    tickets = Ticket.query.filter_by(user_id=current_user.id).order_by(
-        Ticket.created_at.desc()
+    tickets = Ticket.query.filter_by(
+        user_id=current_user.id
     ).all()
+
+    total_tickets = len(tickets)
+
+    open_tickets = sum(
+        1 for ticket in tickets
+        if ticket.status == "Open"
+    )
+
+    progress_tickets = sum(
+        1 for ticket in tickets
+        if ticket.status == "In Progress"
+    )
+
+    closed_tickets = sum(
+        1 for ticket in tickets
+        if ticket.status == "Closed"
+    )
+
+    high_priority = sum(
+        1 for ticket in tickets
+        if ticket.priority == "High"
+    )
 
     return render_template(
         "dashboard.html",
         user=current_user,
-        tickets=tickets
+        total_tickets=total_tickets,
+        open_tickets=open_tickets,
+        progress_tickets=progress_tickets,
+        closed_tickets=closed_tickets,
+        high_priority=high_priority
     )
-
 
 @main.route("/tickets")
 @login_required

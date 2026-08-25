@@ -1,28 +1,68 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard - Support Ticket System</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h2>Support Ticket Dashboard</h2>
+{% block title %}Dashboard{% endblock %}
 
-<p>Welcome, {{ user.name }}!</p>
-<p>You are logged in as {{ user.email }}</p>
+{% block content %}
 
-<h3>Ticket Summary</h3>
+<h2 class="mb-4">Support Ticket Dashboard</h2>
 
-<p>Total Tickets: {{ tickets|length }}</p>
-
-<p>
-    <a href="{{ url_for('main.tickets') }}">View My Tickets</a>
+<p class="mb-4">
+    Welcome, <strong>{{ user.name }}</strong>
 </p>
 
-<p>
-    <a href="{{ url_for('main.add_ticket') }}">Create New Ticket</a>
-</p>
+<div class="row g-3 mb-4">
 
-<a href="{{ url_for('auth.logout') }}">Logout</a>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Total Tickets</h6>
+                <h3>{{ total_tickets }}</h3>
+            </div>
+        </div>
+    </div>
 
-</body>
-</html>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Open</h6>
+                <h3>{{ open_tickets }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">In Progress</h6>
+                <h3>{{ progress_tickets }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Closed</h6>
+                <h3>{{ closed_tickets }}</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5>High Priority Tickets</h5>
+        <h3>{{ high_priority }}</h3>
+    </div>
+</div>
+
+<a href="{{ url_for('main.add_ticket') }}" class="btn btn-primary">
+    Create New Ticket
+</a>
+
+<a href="{{ url_for('main.tickets') }}" class="btn btn-outline-secondary">
+    View Tickets
+</a>
+
+{% endblock %}
