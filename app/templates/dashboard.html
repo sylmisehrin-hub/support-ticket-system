@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Support Ticket System</title>
+</head>
+<body>
+
+<h2>Support Ticket Dashboard</h2>
+
+<p>Welcome, {{ user.name }}!</p>
+
+<p>You are logged in as {{ user.email }}</p>
+
+<a href="{{ url_for('auth.logout') }}">Logout</a>
+
+</body>
+</html>
