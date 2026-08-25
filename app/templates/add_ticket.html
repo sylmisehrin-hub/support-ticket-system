@@ -1,46 +1,144 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Ticket - Support Ticket System</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h2>Create Support Ticket</h2>
+{% block title %}Create Ticket{% endblock %}
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+{% block content %}
 
-<form method="POST">
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-8 col-md-10">
 
-    <label>Title</label><br>
-    <input type="text" name="title" required>
-    <br><br>
+        <!-- Page Header -->
+        <div class="mb-4">
+            <h2 class="fw-bold mb-1">Create Support Ticket</h2>
+            <p class="text-muted">
+                Provide the details below to create a new support request.
+            </p>
+        </div>
 
-    <label>Description</label><br>
-    <textarea name="description" rows="5" cols="40" required></textarea>
-    <br><br>
+        <!-- Ticket Form Card -->
+        <div class="card shadow-sm border-0">
 
-    <label>Priority</label><br>
-    <select name="priority">
-        <option value="Low">Low</option>
-        <option value="Medium" selected>Medium</option>
-        <option value="High">High</option>
-    </select>
+            <div class="card-body p-4 p-md-5">
 
-    <br><br>
+                <form method="POST">
 
-    <button type="submit">Create Ticket</button>
+                    <!-- Ticket Title -->
+                    <div class="mb-4">
 
-</form>
+                        <label
+                            for="title"
+                            class="form-label fw-semibold"
+                        >
+                            Ticket Title
+                        </label>
 
-<br>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg"
+                            id="title"
+                            name="title"
+                            placeholder="Enter a short title for the issue"
+                            required
+                        >
 
-<a href="{{ url_for('main.tickets') }}">Back to Tickets</a>
+                        <div class="form-text">
+                            Use a clear and descriptive title for your support request.
+                        </div>
 
-</body>
-</html>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+
+                        <label
+                            for="description"
+                            class="form-label fw-semibold"
+                        >
+                            Description
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="6"
+                            placeholder="Describe the issue or request in detail..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                    <!-- Priority -->
+                    <div class="mb-4">
+
+                        <label
+                            for="priority"
+                            class="form-label fw-semibold"
+                        >
+                            Priority
+                        </label>
+
+                        <select
+                            class="form-select form-select-lg"
+                            id="priority"
+                            name="priority"
+                        >
+                            <option value="Low">
+                                Low
+                            </option>
+
+                            <option value="Medium" selected>
+                                Medium
+                            </option>
+
+                            <option value="High">
+                                High
+                            </option>
+
+                        </select>
+
+                        <div class="form-text">
+                            Select the priority based on the urgency of the issue.
+                        </div>
+
+                    </div>
+
+                    <!-- Information Box -->
+                    <div class="alert alert-light border mb-4">
+
+                        <strong>Note:</strong>
+                        New tickets are automatically created with an
+                        <span class="badge bg-primary">Open</span>
+                        status.
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <a
+                            href="{{ url_for('main.tickets') }}"
+                            class="btn btn-outline-secondary"
+                        >
+                            Back to Tickets
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary px-4"
+                        >
+                            Create Ticket
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,79 +1,247 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Ticket - Support Ticket System</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h2>Edit Ticket</h2>
+{% block title %}Edit Ticket{% endblock %}
 
-<form method="POST">
+{% block content %}
 
-    <label>Title</label><br>
-    <input
-        type="text"
-        name="title"
-        value="{{ ticket.title }}"
-        required
-    >
-    <br><br>
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-8 col-md-10">
 
-    <label>Description</label><br>
-    <textarea
-        name="description"
-        rows="5"
-        cols="40"
-        required
-    >{{ ticket.description }}</textarea>
-    <br><br>
+        <!-- Page Header -->
+        <div class="mb-4">
+            <h2 class="fw-bold mb-1">Edit Support Ticket</h2>
 
-    <label>Priority</label><br>
-    <select name="priority">
-        <option value="Low"
-            {% if ticket.priority == "Low" %}selected{% endif %}>
-            Low
-        </option>
+            <p class="text-muted">
+                Update the ticket details, priority, or current status.
+            </p>
+        </div>
 
-        <option value="Medium"
-            {% if ticket.priority == "Medium" %}selected{% endif %}>
-            Medium
-        </option>
+        <!-- Edit Form Card -->
+        <div class="card shadow-sm border-0">
 
-        <option value="High"
-            {% if ticket.priority == "High" %}selected{% endif %}>
-            High
-        </option>
-    </select>
+            <div class="card-body p-4 p-md-5">
 
-    <br><br>
+                <form method="POST">
 
-    <label>Status</label><br>
-    <select name="status">
-        <option value="Open"
-            {% if ticket.status == "Open" %}selected{% endif %}>
-            Open
-        </option>
+                    <!-- Ticket Title -->
+                    <div class="mb-4">
 
-        <option value="In Progress"
-            {% if ticket.status == "In Progress" %}selected{% endif %}>
-            In Progress
-        </option>
+                        <label
+                            for="title"
+                            class="form-label fw-semibold"
+                        >
+                            Ticket Title
+                        </label>
 
-        <option value="Closed"
-            {% if ticket.status == "Closed" %}selected{% endif %}>
-            Closed
-        </option>
-    </select>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg"
+                            id="title"
+                            name="title"
+                            value="{{ ticket.title }}"
+                            required
+                        >
 
-    <br><br>
+                        <div class="form-text">
+                            Update the title if the issue has changed.
+                        </div>
 
-    <button type="submit">Update Ticket</button>
+                    </div>
 
-</form>
+                    <!-- Description -->
+                    <div class="mb-4">
 
-<br>
+                        <label
+                            for="description"
+                            class="form-label fw-semibold"
+                        >
+                            Description
+                        </label>
 
-<a href="{{ url_for('main.tickets') }}">Back to Tickets</a>
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="6"
+                            required
+                        >{{ ticket.description }}</textarea>
 
-</body>
-</html>
+                    </div>
+
+                    <!-- Priority and Status -->
+                    <div class="row">
+
+                        <!-- Priority -->
+                        <div class="col-md-6 mb-4">
+
+                            <label
+                                for="priority"
+                                class="form-label fw-semibold"
+                            >
+                                Priority
+                            </label>
+
+                            <select
+                                class="form-select form-select-lg"
+                                id="priority"
+                                name="priority"
+                            >
+
+                                <option
+                                    value="Low"
+                                    {% if ticket.priority == "Low" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Low
+                                </option>
+
+                                <option
+                                    value="Medium"
+                                    {% if ticket.priority == "Medium" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Medium
+                                </option>
+
+                                <option
+                                    value="High"
+                                    {% if ticket.priority == "High" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-md-6 mb-4">
+
+                            <label
+                                for="status"
+                                class="form-label fw-semibold"
+                            >
+                                Status
+                            </label>
+
+                            <select
+                                class="form-select form-select-lg"
+                                id="status"
+                                name="status"
+                            >
+
+                                <option
+                                    value="Open"
+                                    {% if ticket.status == "Open" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Open
+                                </option>
+
+                                <option
+                                    value="In Progress"
+                                    {% if ticket.status == "In Progress" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    In Progress
+                                </option>
+
+                                <option
+                                    value="Closed"
+                                    {% if ticket.status == "Closed" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Closed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Current Ticket Information -->
+                    <div class="alert alert-light border mb-4">
+
+                        <strong>Ticket #{{ ticket.id }}</strong>
+
+                        <br>
+
+                        <span class="text-muted">
+                            Current priority:
+                        </span>
+
+                        {% if ticket.priority == "High" %}
+                            <span class="badge bg-danger">
+                                {{ ticket.priority }}
+                            </span>
+
+                        {% elif ticket.priority == "Medium" %}
+                            <span class="badge bg-warning text-dark">
+                                {{ ticket.priority }}
+                            </span>
+
+                        {% else %}
+                            <span class="badge bg-success">
+                                {{ ticket.priority }}
+                            </span>
+                        {% endif %}
+
+                        <span class="text-muted ms-3">
+                            Current status:
+                        </span>
+
+                        {% if ticket.status == "Closed" %}
+                            <span class="badge bg-secondary">
+                                {{ ticket.status }}
+                            </span>
+
+                        {% elif ticket.status == "In Progress" %}
+                            <span class="badge bg-warning text-dark">
+                                {{ ticket.status }}
+                            </span>
+
+                        {% else %}
+                            <span class="badge bg-primary">
+                                {{ ticket.status }}
+                            </span>
+                        {% endif %}
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <a
+                            href="{{ url_for('main.tickets') }}"
+                            class="btn btn-outline-secondary"
+                        >
+                            Back to Tickets
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary px-4"
+                        >
+                            Update Ticket
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
